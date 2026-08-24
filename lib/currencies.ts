@@ -8,7 +8,7 @@ export const CURRENCIES: CurrencyInfo[] = [
   { code: "USD", name: "United States Dollar", symbol: "$" },
   { code: "EUR", name: "Euro", symbol: "€" },
   { code: "GBP", name: "British Pound", symbol: "£" },
-  { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+  { code: "JPY", name: "Japanese Yen", symbol: "JP¥" },
   { code: "CNY", name: "Chinese Renminbi Yuan", symbol: "¥" },
   { code: "HKD", name: "Hong Kong Dollar", symbol: "HK$" },
   { code: "SGD", name: "Singapore Dollar", symbol: "S$" },

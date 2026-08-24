@@ -85,6 +85,7 @@ export default function Home() {
         <EntryForm
           initial={editing ?? undefined}
           enabledCurrencies={data.enabledCurrencies}
+          baseCurrency={data.baseCurrency}
           onSave={handleSave}
           onCancel={() => {
             setFormOpen(false);

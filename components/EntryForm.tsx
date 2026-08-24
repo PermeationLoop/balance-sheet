@@ -9,6 +9,7 @@ import { CurrencySelect } from "./CurrencySelect";
 interface EntryFormProps {
   initial?: Entry;
   enabledCurrencies: string[];
+  baseCurrency: string;
   onSave: (entry: Entry) => void;
   onCancel: () => void;
 }
@@ -19,7 +20,7 @@ interface DraftHolding {
   amount: string;
 }
 
-function toDraft(entry?: Entry) {
+function toDraft(baseCurrency: string, entry?: Entry) {
   return {
     name: entry?.name ?? "",
     type: (entry?.type ?? "bank") as EntryType,
@@ -29,7 +30,7 @@ function toDraft(entry?: Entry) {
         key: uid(),
         currency: h.currency,
         amount: h.amount === 0 ? "" : String(h.amount),
-      })) ?? [{ key: uid(), currency: "", amount: "" }]
+      })) ?? [{ key: uid(), currency: baseCurrency, amount: "" }]
     ) as DraftHolding[],
   };
 }
@@ -37,10 +38,11 @@ function toDraft(entry?: Entry) {
 export function EntryForm({
   initial,
   enabledCurrencies,
+  baseCurrency,
   onSave,
   onCancel,
 }: EntryFormProps) {
-  const [draft, setDraft] = useState(() => toDraft(initial));
+  const [draft, setDraft] = useState(() => toDraft(baseCurrency, initial));
 
   function set<K extends keyof typeof draft>(key: K, value: (typeof draft)[K]) {
     setDraft((d) => ({ ...d, [key]: value }));
@@ -56,7 +58,7 @@ export function EntryForm({
   function addHolding() {
     setDraft((d) => ({
       ...d,
-      holdings: [...d.holdings, { key: uid(), currency: "", amount: "" }],
+      holdings: [...d.holdings, { key: uid(), currency: baseCurrency, amount: "" }],
     }));
   }
 
@@ -147,6 +149,7 @@ export function EntryForm({
                   value={h.currency}
                   onChange={(v) => updateHolding(h.key, { currency: v })}
                   enabledCurrencies={enabledCurrencies}
+                  baseCurrency={baseCurrency}
                 />
               </div>
               <input
