@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "pnpx serve@latest out",
     "lint": "eslint"
   },
   "dependencies": {

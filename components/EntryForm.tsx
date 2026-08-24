@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Entry, EntryType, Holding } from "@/lib/types";
-import { ENTRY_TYPES, ENTRY_TYPE_LABELS } from "@/lib/types";
+import { ASSET_TYPES, LIABILITY_TYPES, ENTRY_TYPE_LABELS } from "@/lib/types";
 import { uid } from "@/lib/format";
 import { CurrencySelect } from "./CurrencySelect";
 
@@ -120,11 +120,20 @@ export function EntryForm({
           onChange={(e) => set("type", e.target.value as EntryType)}
           className="mb-4 w-full rounded-md border border-zinc-300 bg-white px-2 py-2 text-sm text-zinc-900 focus:border-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
         >
-          {ENTRY_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {ENTRY_TYPE_LABELS[t]}
-            </option>
-          ))}
+          <optgroup label="Assets">
+            {ASSET_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {ENTRY_TYPE_LABELS[t]}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="Liabilities">
+            {LIABILITY_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {ENTRY_TYPE_LABELS[t]}
+              </option>
+            ))}
+          </optgroup>
         </select>
 
         <label className="mb-1 block text-sm font-medium text-zinc-600 dark:text-zinc-400">

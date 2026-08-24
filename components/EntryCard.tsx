@@ -1,7 +1,7 @@
 "use client";
 
 import type { AppData, Entry } from "@/lib/types";
-import { ENTRY_TYPE_LABELS } from "@/lib/types";
+import { ENTRY_TYPE_LABELS, isLiability } from "@/lib/types";
 import { formatMoney } from "@/lib/format";
 import { toBase } from "@/lib/compute";
 
@@ -14,6 +14,7 @@ interface EntryCardProps {
 
 export function EntryCard({ entry, data, onEdit, onDelete }: EntryCardProps) {
   const enabled = new Set(data.enabledCurrencies);
+  const liability = isLiability(entry.type);
   let baseTotal = 0;
   let complete = true;
 
@@ -30,7 +31,13 @@ export function EntryCard({ entry, data, onEdit, onDelete }: EntryCardProps) {
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <span className="truncate font-medium">{entry.name}</span>
-            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+            <span
+              className={`rounded-full px-2 py-0.5 text-xs ${
+                liability
+                  ? "bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400"
+                  : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+              }`}
+            >
               {ENTRY_TYPE_LABELS[entry.type]}
             </span>
           </div>
@@ -82,7 +89,14 @@ export function EntryCard({ entry, data, onEdit, onDelete }: EntryCardProps) {
       {entry.holdings.length > 0 && (
         <div className="mt-3 border-t border-zinc-100 pt-2 text-sm dark:border-zinc-800">
           <span className="text-zinc-500 dark:text-zinc-400">Total</span>{" "}
-          <span className="font-medium">
+          <span
+            className={`font-medium ${
+              liability
+                ? "text-red-600 dark:text-red-400"
+                : "text-zinc-900 dark:text-zinc-100"
+            }`}
+          >
+            {liability ? "−" : ""}
             {formatMoney(baseTotal, data.baseCurrency)}
           </span>
           {!complete && (
